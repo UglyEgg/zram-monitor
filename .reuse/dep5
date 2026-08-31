@@ -1,0 +1,11 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: zRAM Monitor
+Upstream-Contact: uglyegg <uglyegg@entropy.quest>
+Source: https://github.com/uglyegg/zram-monitor
+
+Files: metadata.json
+       contents/config/main.xml
+       screenshots/*
+       tests/fixtures/*
+Copyright: 2026 uglyegg <uglyegg@entropy.quest>
+License: GPL-3.0-or-later

@@ -1,0 +1,22 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "uglyegg@entropy.quest",
+                "Name": "uglyegg"
+            }
+        ],
+        "BugReportUrl": "https://github.com/uglyegg/zram-monitor/issues",
+        "Category": "System Information",
+        "Description": "See how much memory zram saves and when compression becomes pressure",
+        "EnabledByDefault": true,
+        "Icon": "memory",
+        "Id": "quest.entropy.zrammonitor",
+        "License": "GPL-3.0-or-later",
+        "Name": "zRAM Monitor",
+        "Version": "1.0.0",
+        "Website": "https://github.com/uglyegg/zram-monitor"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

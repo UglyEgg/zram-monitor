@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+  <kcfgfile name=""/>
+  <group name="General">
+    <entry name="refreshInterval" type="Int">
+      <default>15</default>
+      <min>1</min>
+      <max>30</max>
+    </entry>
+    <entry name="showPanelRatio" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="notificationsEnabled" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="pressureThreshold" type="Int">
+      <default>20</default>
+      <min>1</min>
+      <max>100</max>
+    </entry>
+    <entry name="sustainSeconds" type="Int">
+      <default>30</default>
+      <min>5</min>
+      <max>300</max>
+    </entry>
+  </group>
+</kcfg>

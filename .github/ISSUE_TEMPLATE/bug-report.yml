@@ -1,0 +1,41 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Bug report
+description: Report incorrect behavior or display in zRAM Monitor
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Please do not report security vulnerabilities here; use the private address in SECURITY.md.
+  - type: input
+    id: version
+    attributes:
+      label: zRAM Monitor version
+    validations:
+      required: true
+  - type: input
+    id: plasma
+    attributes:
+      label: Plasma version and Linux distribution
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Include what you expected and what occurred instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Relevant diagnostics
+      description: Include zramctl output or screenshots when useful, after removing sensitive information.

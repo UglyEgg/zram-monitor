@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+/dist/
+*.qmlc
+*.jsc
+*.plasmoid
+*.tar.gz
+*~
+.DS_Store

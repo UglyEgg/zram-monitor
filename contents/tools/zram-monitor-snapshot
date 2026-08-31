@@ -1,0 +1,117 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+set -eu
+
+sys_block_root=${ZRAM_MONITOR_SYS_BLOCK_ROOT:-/sys/block}
+proc_root=${ZRAM_MONITOR_PROC_ROOT:-/proc}
+
+logical=0
+physical=0
+disk_size=0
+read_sectors=0
+write_sectors=0
+device_count=0
+devices=""
+algorithm=""
+swap_devices=""
+
+if [ -r "$proc_root/swaps" ]; then
+    while read -r swap_path _; do
+        [ "$swap_path" = "Filename" ] && continue
+        swap_devices="$swap_devices ${swap_path##*/}"
+    done < "$proc_root/swaps"
+fi
+
+for device_path in "$sys_block_root"/zram*; do
+    [ -d "$device_path" ] || continue
+
+    device=${device_path##*/}
+    case " $swap_devices " in
+        *" $device "*) ;;
+        *) continue ;;
+    esac
+    [ -r "$device_path/mm_stat" ] || continue
+
+    device_logical=0
+    device_physical=0
+    read -r device_logical _ device_physical _ < "$device_path/mm_stat"
+    device_disk_size=0
+    if [ -r "$device_path/disksize" ]; then
+        read -r device_disk_size < "$device_path/disksize"
+    fi
+
+    device_read_sectors=0
+    device_write_sectors=0
+    if [ -r "$device_path/stat" ]; then
+        read -r _ _ device_read_sectors _ _ _ device_write_sectors _ < "$device_path/stat"
+    fi
+
+    device_algorithm=""
+    algorithm_line=""
+    if [ -r "$device_path/comp_algorithm" ]; then
+        read -r algorithm_line < "$device_path/comp_algorithm"
+        for candidate in $algorithm_line; do
+            case "$candidate" in
+                \[*\])
+                    device_algorithm=${candidate#\[}
+                    device_algorithm=${device_algorithm%\]}
+                    ;;
+            esac
+        done
+    fi
+    if [ -z "$algorithm" ] && [ -n "$device_algorithm" ]; then
+        algorithm=$device_algorithm
+    elif [ -n "$device_algorithm" ] && [ "$algorithm" != "$device_algorithm" ]; then
+        algorithm="mixed"
+    fi
+
+    logical=$((logical + device_logical))
+    physical=$((physical + device_physical))
+    disk_size=$((disk_size + device_disk_size))
+    read_sectors=$((read_sectors + device_read_sectors))
+    write_sectors=$((write_sectors + device_write_sectors))
+    device_count=$((device_count + 1))
+
+    if [ -z "$devices" ]; then
+        devices=$device
+    else
+        devices="$devices, $device"
+    fi
+done
+
+if [ "$device_count" -eq 0 ]; then
+    printf '%s\n' '{"ok":false,"error":"No active zram swap device was found."}'
+    exit 0
+fi
+
+mem_total_kib=0
+mem_available_kib=0
+while read -r key value _; do
+    case "$key" in
+        MemTotal:) mem_total_kib=$value ;;
+        MemAvailable:) mem_available_kib=$value ;;
+    esac
+done < "$proc_root/meminfo"
+
+psi_some=0
+if [ -r "$proc_root/pressure/memory" ]; then
+    while read -r pressure_kind fields; do
+        for field in $fields; do
+            case "$field" in
+                avg10=*)
+                    case "$pressure_kind" in
+                        some) psi_some=${field#avg10=} ;;
+                    esac
+                    break
+                    ;;
+            esac
+        done
+    done < "$proc_root/pressure/memory"
+fi
+
+printf '{"ok":true,"devices":"%s","algorithm":"%s","diskSizeBytes":%s,"logicalBytes":%s,"physicalBytes":%s,"readSectors":%s,"writeSectors":%s,"memTotalBytes":%s,"memAvailableBytes":%s,"psiSomeAvg10":%s}\n' \
+    "$devices" "$algorithm" \
+    "$disk_size" "$logical" "$physical" "$read_sectors" "$write_sectors" \
+    "$((mem_total_kib * 1024))" "$((mem_available_kib * 1024))" \
+    "${psi_some:-0}"

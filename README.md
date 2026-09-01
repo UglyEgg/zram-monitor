@@ -2,6 +2,8 @@
 
 # zRAM Monitor
 
+[![Get zRAM Monitor on the KDE Store](https://img.shields.io/badge/KDE%20Store-Get%20zRAM%20Monitor-1d99f3?logo=kde&logoColor=white)](https://store.kde.org/p/2370040)
+
 zRAM Monitor is a lightweight Plasma 6 widget that explains what Linux zram is doing, not merely how full it is. Its connected memory map shows the uncompressed pages held in zram, their physical RAM cost, the RAM avoided through compression, total system-memory use, swap traffic, and Linux memory pressure.
 
 | Breeze Dark | Breeze Light |
@@ -26,7 +28,7 @@ zRAM Monitor is a lightweight Plasma 6 widget that explains what Linux zram is d
 
 ## Install
 
-Download the `.plasmoid` file from the latest release, then run:
+Install zRAM Monitor from the [KDE Store](https://store.kde.org/p/2370040) through Plasma's widget picker, or download the `.plasmoid` file from the latest GitHub release and run:
 
 ```sh
 kpackagetool6 --type Plasma/Applet --install ./quest.entropy.zrammonitor-VERSION.plasmoid

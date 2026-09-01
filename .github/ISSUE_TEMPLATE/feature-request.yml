@@ -1,0 +1,68 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Feature request
+description: Suggest a focused improvement to zRAM Monitor
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement. zRAM Monitor aims to make zram activity and memory pressure understandable while remaining lightweight, local, unprivileged, read-only, and theme-aware.
+
+        For major behavioral or visual changes, please also read the [contributing guide](https://github.com/UglyEgg/zram-monitor/blob/main/CONTRIBUTING.md).
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Memory overview or accounting
+        - Memory pressure or zram activity
+        - History or trends
+        - Alerts or health state
+        - Settings or sampling interval
+        - Panel integration, theme, or accessibility
+        - Packaging or distribution support
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: need
+    attributes:
+      label: What problem would this solve?
+      description: Describe the user need or confusing situation before proposing a control or implementation.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed experience
+      description: Explain what the user would see or do and how the information would remain clear at normal Plasma widget sizes.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Note any simpler presentation, existing system tool, or workaround you considered.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add sketches, screenshots, example output, or related references if useful.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the existing issues for a similar request.
+          required: true
+        - label: This request preserves lightweight, local, unprivileged, read-only monitoring without a resident service.
+          required: true

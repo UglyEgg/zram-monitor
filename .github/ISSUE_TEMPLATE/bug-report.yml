@@ -1,41 +1,120 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 name: Bug report
-description: Report incorrect behavior or display in zRAM Monitor
-title: "[Bug]: "
+description: Report a reproducible problem with zRAM Monitor
+title: "[Bug] "
 labels:
   - bug
 body:
   - type: markdown
     attributes:
-      value: Please do not report security vulnerabilities here; use the private address in SECURITY.md.
+      value: |
+        Thanks for helping improve zRAM Monitor. Please report security vulnerabilities through the Security Policy link in the issue chooser instead of opening a public issue.
+
+        Diagnostic output and screenshots can contain usernames, hostnames, process names, and other private details. Please remove anything sensitive before submitting them.
+
   - type: input
     id: version
     attributes:
       label: zRAM Monitor version
+      description: The version shown by the KDE Store, release package, or widget metadata.
+      placeholder: 1.0.0
     validations:
       required: true
+
+  - type: dropdown
+    id: installation
+    attributes:
+      label: Installation method
+      options:
+        - KDE Store or Plasma widget picker
+        - OpenDesktop or Pling
+        - GitHub release plasmoid
+        - Built from source
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: distribution
+    attributes:
+      label: Linux distribution
+      description: Include the distribution name and version.
+      placeholder: Fedora 44 or Kubuntu 26.04 LTS
+    validations:
+      required: true
+
   - type: input
     id: plasma
     attributes:
-      label: Plasma version and Linux distribution
+      label: KDE Plasma version
+      placeholder: 6.x
     validations:
       required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Panel icon or compact representation
+        - Memory map or RAM accounting
+        - History, zram activity, or memory pressure
+        - Alert or health state
+        - Settings or sampling interval
+        - Theme, layout, or accessibility
+        - Installation or packaging
+        - Other
+    validations:
+      required: true
+
   - type: textarea
-    id: description
+    id: problem
     attributes:
       label: What happened?
-      description: Include what you expected and what occurred instead.
+      description: Describe the visible problem and whether zRAM Monitor showed an error.
     validations:
       required: true
+
   - type: textarea
     id: reproduce
     attributes:
       label: Steps to reproduce
+      description: List the shortest sequence that reliably causes the problem.
+      placeholder: |
+        1. Add or open zRAM Monitor
+        2. Select ...
+        3. See ...
     validations:
       required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should zRAM Monitor have shown or done instead?
+    validations:
+      required: true
+
   - type: textarea
     id: diagnostics
     attributes:
-      label: Relevant diagnostics
-      description: Include zramctl output or screenshots when useful, after removing sensitive information.
+      label: Relevant diagnostic output
+      description: If relevant, include sanitized output from `zramctl`, `free -h`, or the exact error shown by the widget. Do not post an entire journal.
+      render: shell
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add a screenshot, Plasma theme name, unusual zram setup, or anything else that helps explain the problem.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the existing issues for this problem.
+          required: true
+        - label: I removed private or sensitive information from the report.
+          required: true
